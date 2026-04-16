@@ -1,0 +1,93 @@
+# Node.js and Express Foundations
+
+# Express routes
+
+-- paths in the request method are called routes
+-- determines how an app responds to a certain request path
+
+---------------------------------------------------------------------------------------------------------------
+
+# HTTP Cookies 
+
+-- cookies are small files created by web server that get stored in user's web browser 
+-- not meant to store a lot of data like database 
+-- not the right tool if u need to ensure the client does not modify any of the stored data 
+-- perfect for storing small amounts of data between page visits 
+
+---------------------------------------------------------------------------------------------------------------
+
+** STEPS
+
+-- import the cookie-parser library to read and write in express 
+-- create a route to handle the cart button and save into a cookie
+
+-- check if cookie already exists
+-- add data to the cookie object
+-- return cookie to the client
+
+import cookieParser from cookie-parser;
+
+app.use(cookieParser())
+
+-- read all data from request.cookies
+
+set cookie in response
+
+response.cookie = {}
+response.status(200).send('some message')
+
+---------------------------------------------------------------------------------------------------------------
+
+# Express Middleware 
+
+-- with middleware u can write functions that run after the request event comes in 
+-- but before a response is returned 
+
+==> request ==> middleware function ==> request callback ==> response 
+
+-- requires u to write a callback function that takes -- request, response and next
+-- executes next
+-- pass this function to app.use 
+
+-- request is passed to each middleware function in order it is loaded using app.use(middleware_function) method
+
+-- if specific to request u want to validate the request then u can pass the middleware function for that path
+
+const validateRequest = (request, response, next) => {
+
+	// logic to validate data 
+
+	next()
+}
+
+app.post('/order', validateRequest, (request, response) => {
+
+})
+
+ next() // pass control to the next middleware or route handler
+
+---------------------------------------------------------------------------------------------------------------
+
+# Try catch block 
+
+try {
+  app.get('/', requestCallback)
+} catch (error) { 
+  console.error('Error setting up route:', error)
+  app.status(500).send('Internal Server Error')
+}
+
+---------------------------------------------------------------------------------------------------------------
+
+# Error Handling Middleware
+
+-- only runs when an unhandled error is detected 
+
+// error handling middleware
+// catches errors in the app
+
+app.use((error, request, response, next) => { 
+  console.error('Error occurred:', error)
+  response.status(500).send('Internal Server Error')
+})
+

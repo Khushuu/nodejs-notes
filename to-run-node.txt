@@ -1,0 +1,76 @@
+Node.js needs to know whether your code is using:
+
+	-- CommonJS (default in Node.js): uses require()
+	-- ES Modules (ECMAScript modules): uses import
+
+You're using ES module syntax:
+
+	import express from "express";
+
+------------------------------------------------------------------------------------------------------------------
+
+# But by default, .js files are treated as CommonJS, not ES modules — unless you tell Node otherwise.
+
+------------------------------------------------------------------------------------------------------------------
+
+# You have two main ways to fix this:
+
+✅ Option 1: Set "type": "module" in package.json
+	Go to your package.json and add:
+
+	{
+	"type": "module",
+	...
+	}
+	This tells Node.js to treat .js files as ES modules.
+
+	Pros:
+	You can use import, export, async/await, top-level await, etc.
+
+------------------------------------------------------------------------------------------------------------------
+
+✅ Option 2: Rename the file to .mjs
+	If you don’t want to change your whole project, you can just rename your file:
+
+	index.js → index.mjs
+	Then run it like this:
+
+	node index.mjs
+
+------------------------------------------------------------------------------------------------------------------
+
+🛠️ Option 3: Switch to CommonJS Syntax (if you prefer)
+	If you don’t need ES modules, you can just use CommonJS syntax:
+
+	const express = require("express");
+	But this won’t work if you're using ES module-only packages or newer features that require ESM.
+
+------------------------------------------------------------------------------------------------------------------
+
+# Run these commands in order 
+
+npm init
+npm install express
+-- create an index.js file for running the server 
+node index.js
+
+------------------------------------------------------------------------------------------------------------------
+index.js 
+
+import express from 'express'
+
+const server = express();
+
+const requestCallback = (request, response) => {
+	response.status(200).send('U r amazing')
+}
+
+-- HTTP - GET request -- http://localhost:8080/
+
+server.get('/', (request, response) => {
+	response.status(200).send('request received');
+})
+
+server.get('/khush', requestCallback);
+
+server.listen(8080)
